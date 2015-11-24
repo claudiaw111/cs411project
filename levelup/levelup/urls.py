@@ -19,6 +19,7 @@ from app.views import test
 
 urlpatterns = patterns('',
     url(r'^$', 'app.views.home', name = 'home'),
+    #url(r'^$', 'app.views.gather_keys'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^fitbit/', include('fitapp.urls')),
     url(r'^test/$', 'app.views.test', name = 'test'),
