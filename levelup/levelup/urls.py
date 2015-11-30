@@ -18,9 +18,20 @@ from django.contrib import admin
 from app.views import test
 
 urlpatterns = patterns('',
-    url(r'^$', 'app.views.home', name = 'home'),
-    #url(r'^$', 'app.views.gather_keys'),
+    url(r'^$', 'app.views.auth', name = 'auth'),
     url(r'^admin/', include(admin.site.urls)),
+    #url(r'^create/$', 'app.views.createUser', name = 'create'),
+    url(r'^home/$', 'app.views.home', name = 'home'),
+
+    #url(r'^login/$', 'django.contrib.auth.views.login'),
+    #url(r'^auth/$', 'app.views.auth_view', name='auth'),
+    url(r'^login/$', 'app.views.login', name = 'login'),
+    url(r'^auth/$', 'app.views.auth_view', name='auth'),
+    url(r'^invalid/$', 'app.views.invalid_login', name='invalid_login'),
+    url(r'^logout/$', 'app.views.logout_view', name = 'logout'),
+    #url(r'^admin/', include(admin.site.urls)),
     url(r'^fitbit/', include('fitapp.urls')),
     url(r'^test/$', 'app.views.test', name = 'test'),
+    url(r'^register/$', 'app.views.register_user', name = 'create'),
+    url(r'^register_success/$', 'app.views.register_success', name = 'success'),
 )

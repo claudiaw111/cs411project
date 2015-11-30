@@ -1,12 +1,16 @@
 from django.shortcuts import render, render_to_response
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 import fitbit
+from django.template import RequestContext
 
 import fitapp
 import fitbitapi
 from fitapp import views
 from app.models import *
 from django.shortcuts import render_to_response
+from django.contrib.auth import authenticate, login, logout
+from django.core.context_processors import csrf
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 
@@ -35,7 +39,7 @@ userid = ""
 owner_key = ""
 owner_secret = ""
 
-def home(request):
+def auth(request):
 
 
     client = fitbit.FitbitOauthClient(FITAPP_CONSUMER_KEY, FITAPP_CONSUMER_SECRET)
@@ -49,9 +53,121 @@ def home(request):
     owner_key = result.get('oauth_token')
     owner_secret = result.get('oauth_token_secret')
 
-    return render_to_response('home.html', {"home" : "Hello",
-                                            "token" : owner_key,
-                                            "client" : result})
+
+    auth = fitbit.Fitbit(FITAPP_CONSUMER_KEY, FITAPP_CONSUMER_SECRET)
+    profile = auth.user_profile_get(userid)
+
+    username = profile.get('user').get('displayName')
+
+    #if not(Users.objects.filter(user_id = "user_id").exists()):
+
+
+    newUser = Users(user_id = userid, user_name = username, user_level = 0, user_achievement = bin(0),
+                        token = owner_key, token_secret = owner_secret)
+    newUser.save()
+
+
+    return render_to_response('test.html', {"home" : userid,
+                                                "token" : result,
+                                                "client" : profile})
+    '''
+    return render_to_response('home.html', {"home" : "You are already in DB",
+                                            "token" : result,
+                                            "client" : username})
+    '''
+
+'''
+def createUser(request):
+    if request.method == "GET":
+        form = CreateUserForm
+        return render(request, 'create.html', {'form': form})
+    elif request.method == "POST":
+        form = CreateUserForm(request.POST)
+        form.save()
+        return HttpResponseRedirect('/home')
+'''
+'''
+def createUser(request):
+    if request.method == "GET":
+        form = CreateUserForm
+        return render(request, 'create.html', {'form': form})
+    elif request.method == "POST":
+        form = CreateUserForm(request.POST)
+        form.save()
+        return HttpResponseRedirect('/login')
+'''
+
+def register_user(request):
+    if request.POST == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/register_success')
+
+    args = {}
+    args.update(csrf(request))
+    args['form'] = UserCreationForm()
+    print args
+    return render_to_response('register.html', args)
+
+def register_success(request):
+    return render_to_response('register_success.html')
+
+def home(request):
+    return render_to_response('home.html', {"home" : "Home Page"})
+
+'''
+def login_view(request):
+    state = "Please log in below..."
+    username = password = ''
+    if request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
+
+        print("user: ", username)
+        print("pass: ", password)
+
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                #this should be user home page
+                return HttpResponseRedirect('/home')
+                #state = "You're successfully logged in!"
+            else:
+                #return HttpResponse("The password is valid, but the account has been disabled!")
+                state = "The password is valid, but the account has been disabled!"
+        else:
+            #return HttpResponse("The username and password were incorrect.")
+            state = "Your username and/or password were incorrect."
+    return render_to_response('auth.html',{'state':state, 'username': username}, context_instance=RequestContext(request))
+'''
+
+def login(request):
+    c = {}
+    c.update(csrf(request))
+    return render_to_response('login.html', c)
+
+def auth_view(request):
+    username = request.POST.get('username', '')
+    password = request.POST.get('password', '')
+    user = authenticate(username=username, password=password)
+
+    if user is not None:
+        login(request, user)
+        return HttpResponseRedirect('/home')
+    else:
+        return HttpResponseRedirect('/invalid')
+
+def invalid_login(request):
+    return render_to_response('invalid.html')
+
+def logout_view(request):
+    logout(request)
+    '''this should be login page'''
+    return HttpResponseRedirect('/home')
+
+
 
     '''
     client = fitbit.FitbitOauthClient(FITAPP_CONSUMER_KEY, FITAPP_CONSUMER_SECRET)
