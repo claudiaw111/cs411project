@@ -63,16 +63,17 @@ def auth(request):
 
 
     newUser = Users(user_id = userid, user_name = username, user_level = 0, user_achievement = bin(0),
-                        token = owner_key, token_secret = owner_secret)
+                       token = owner_key, token_secret = owner_secret)
     newUser.save()
 
 
     return render_to_response('test.html', {"home" : userid,
                                                 "token" : result,
                                                 "client" : profile})
+
     '''
-    return render_to_response('home.html', {"home" : "You are already in DB",
-                                            "token" : result,
+    return render_to_response('home.html', {"home" : token,
+                                            "token" : client.authorize_token_url(),
                                             "client" : username})
     '''
 
@@ -98,7 +99,7 @@ def createUser(request):
 '''
 
 def register_user(request):
-    if request.POST == "POST":
+    if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
@@ -143,7 +144,7 @@ def login_view(request):
     return render_to_response('auth.html',{'state':state, 'username': username}, context_instance=RequestContext(request))
 '''
 
-def login(request):
+def user_login(request):
     c = {}
     c.update(csrf(request))
     return render_to_response('login.html', c)
