@@ -62,9 +62,9 @@ def auth(request):
     #if not(Users.objects.filter(user_id = "user_id").exists()):
 
 
-    #newUser = Users(user_id = userid, user_name = username, user_level = 0, user_achievement = bin(0),
-    #                   token = owner_key, token_secret = owner_secret)
-    #newUser.save()
+    newUser = Users(user_id = userid, user_name = username, user_level = 0, user_achievement = bin(0),
+                       token = owner_key, token_secret = owner_secret)
+    newUser.save()
 
 
     return render_to_response('test.html', {"home" : userid,
