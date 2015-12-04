@@ -6,7 +6,8 @@ from django.template import RequestContext
 import fitapp
 import fitbitapi
 from fitapp import views
-from app.models import *
+from app.models import Users
+from app.models import Group
 from django.shortcuts import render_to_response
 from django.contrib.auth import authenticate, login, logout
 from django.core.context_processors import csrf
@@ -17,8 +18,6 @@ import datetime
 
 FITAPP_CONSUMER_KEY = '8cf83d9cc0be9d5ee42072ce55edf7a8'
 FITAPP_CONSUMER_SECRET = 'b2293933b2b0e43cc4d04224e9cf53cd'
-#FITAPP_CONSUMER_KEY = '0b59e1fc7fb88458a9d5c68cbbbc3857'
-#FITAPP_CONSUMER_SECRET = '7650c86938d928872c6e7367621afbc6'
 
 callback_url = 'http://localhost/callback'
 
@@ -33,10 +32,10 @@ import sys
 import webbrowser
 
 import urllib2
-#from BeautifulSoup import BeautifulSoup
 import requests
 
 userid = ""
+username = ""
 owner_key = ""
 owner_secret = ""
 
@@ -55,18 +54,22 @@ def auth(request):
     owner_secret = result.get('oauth_token_secret')
 
 
-    auth = fitbit.Fitbit(FITAPP_CONSUMER_KEY, FITAPP_CONSUMER_SECRET)
+    #auth = fitbit.Fitbit(FITAPP_CONSUMER_KEY, FITAPP_CONSUMER_SECRET)
+    auth = fitbit.Fitbit(FITAPP_CONSUMER_KEY, FITAPP_CONSUMER_SECRET, resource_owner_key = owner_key, resource_owner_secret = owner_secret)
     profile = auth.user_profile_get(userid)
 
     username = profile.get('user').get('displayName')
 
     #if not(Users.objects.filter(user_id = "user_id").exists()):
 
-    '''
-    newUser = Users(user_id = userid, user_name = username, user_level = 0, user_achievement = bin(0),
-                       token = owner_key, token_secret = owner_secret)
+
+    newUser = Users(user_id = userid, user_name = username, user_strength = 0,
+                        user_agility = 0, user_willpower = 0, user_constitution = 0,
+                        user_achievement = bin(0), token = owner_key,
+                        token_secret = owner_secret)
     newUser.save()
-    '''
+
+
     now = datetime.datetime.now().strftime('%y%m%d')
     activity_stats = auth._COLLECTION_RESOURCE('activities', now, userid)
     time = activity_stats.get('goals').get('activeMinutes')
@@ -232,4 +235,24 @@ def test(request):
     #response = client.fetch_access_token(verifier, token)
     return render_to_response('test.html', {"response" : verifier})
 
+def createGroup(request):
+    if request.method == "POST":
+        name = request.POST.get('name', '')
+        description = request.POST.get('description', '')
+        creator = userid
+        if name != "" and description != "":
+            newGroup = Group(group_name = name, group_description=description,creator=creator,
+                             member_2="None", member_3="None")
+            newGroup.save()
+            return HttpResponseRedirect('/home')
+    return render(request, 'CreateGroup.html', {})
+
+def createChallenge(request):
+    if request.method == "POST":
+        gee = request.POST.get('gee', '')
+        ger = userid
+        if Users.objects.filter(user_name=gee).exists():
+            print("AAAAAAAAAAAAAAAA")
+        print("here")
+    return render(request, 'CreateChallenge.html', {})
 

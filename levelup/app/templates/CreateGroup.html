@@ -1,0 +1,9 @@
+{% block content %}
+
+    <h2>Create Group</h2>
+    <form action = "/createGroup/" method="post">{% csrf_token %}
+        Group name: <input type="text" name="name" value =""><br>
+        Group description: <input type="text" name="description" value =""><br>
+    <input type="submit" value="Create"/>
+    </form>
+{% endblock %}
