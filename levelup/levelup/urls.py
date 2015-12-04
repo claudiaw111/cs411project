@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from app.views import test
+#from app.views import test
 
 urlpatterns = patterns('',
     url(r'^$', 'app.views.auth', name = 'auth'),
@@ -34,4 +34,6 @@ urlpatterns = patterns('',
     url(r'^test/$', 'app.views.test', name = 'test'),
     url(r'^register/$', 'app.views.register_user', name = 'create'),
     url(r'^register_success/$', 'app.views.register_success', name = 'success'),
+    url(r'^createGroup/$', 'app.views.createGroup', name = 'createGroup'),
+    url(r'^createChallenge/$', 'app.views.createChallenge', name = 'createChallenge'),
 )
