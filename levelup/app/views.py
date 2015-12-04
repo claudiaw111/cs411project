@@ -11,6 +11,7 @@ from django.shortcuts import render_to_response
 from django.contrib.auth import authenticate, login, logout
 from django.core.context_processors import csrf
 from django.contrib.auth.forms import UserCreationForm
+import datetime
 
 # Create your views here.
 
@@ -61,15 +62,20 @@ def auth(request):
 
     #if not(Users.objects.filter(user_id = "user_id").exists()):
 
-
+    '''
     newUser = Users(user_id = userid, user_name = username, user_level = 0, user_achievement = bin(0),
                        token = owner_key, token_secret = owner_secret)
     newUser.save()
-
+    '''
+    now = datetime.datetime.now().strftime('%y%m%d')
+    activity_stats = auth._COLLECTION_RESOURCE('activities', now, userid)
+    time = activity_stats.get('goals').get('activeMinutes')
 
     return render_to_response('test.html', {"home" : userid,
                                                 "token" : result,
-                                                "client" : profile})
+                                                "client" : profile,
+                                                "activity": activity_stats,
+                                                "time" : time})
 
     '''
     return render_to_response('home.html', {"home" : token,
@@ -209,15 +215,15 @@ def logout_view(request):
     return render_to_response('home.html', {"home" : "Hello",
                                                 "token" : newurl,
                                                 "client" : verifier})
-    '''
+'''
 
 def test(request):
-    '''
+
     unauth_client = fitbit.Fitbit('0b59e1fc7fb88458a9d5c68cbbbc3857',
                                   '7650c86938d928872c6e7367621afbc6',
                                   'http://127.0.0.1:8000/')
     return render_to_response('test.html', {"Testing" : unauth_client.food_units()})
-    '''
+
 
     client = fitbit.FitbitOauthClient(FITAPP_CONSUMER_KEY, FITAPP_CONSUMER_SECRET)
     token = client.fetch_request_token()
