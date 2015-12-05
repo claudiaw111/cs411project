@@ -17,6 +17,7 @@ class Users(models.Model):
     user_achievement = models.BinaryField(default = '00000000')
     token = models.CharField("oauth_token", default = '00000000', max_length=50)
     token_secret = models.CharField("oauth_token_secret", default = '00000000', max_length=50)
+    group = models.CharField("group", default="None", max_length=255)
 
 class Group(models.Model):
     group_name = models.CharField("group_name", max_length= 255, unique=True)
