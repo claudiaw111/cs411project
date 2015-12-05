@@ -8,11 +8,13 @@ import fitbitapi
 from fitapp import views
 from app.models import Users
 from app.models import Group
+from app.models import Challenge
 from django.shortcuts import render_to_response
 from django.contrib.auth import authenticate, login, logout
 from django.core.context_processors import csrf
 from django.contrib.auth.forms import UserCreationForm
 import datetime
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -62,13 +64,13 @@ def auth(request):
 
     #if not(Users.objects.filter(user_id = "user_id").exists()):
 
-
+    '''
     newUser = Users(user_id = userid, user_name = username, user_strength = 0,
                         user_agility = 0, user_willpower = 0, user_constitution = 0,
                         user_achievement = bin(0), token = owner_key,
-                        token_secret = owner_secret)
+                        token_secret = owner_secret, group = "None")
     newUser.save()
-
+    '''
 
     now = datetime.datetime.now().strftime('%y%m%d')
     activity_stats = auth._COLLECTION_RESOURCE('activities', now, userid)
@@ -218,7 +220,7 @@ def logout_view(request):
     return render_to_response('home.html', {"home" : "Hello",
                                                 "token" : newurl,
                                                 "client" : verifier})
-'''
+
 
 def test(request):
 
@@ -234,6 +236,7 @@ def test(request):
     #verifier = '65e089e405cb0cfa2170dadd3350a20f'
     #response = client.fetch_access_token(verifier, token)
     return render_to_response('test.html', {"response" : verifier})
+'''
 
 def createGroup(request):
     if request.method == "POST":
@@ -251,8 +254,41 @@ def createChallenge(request):
     if request.method == "POST":
         gee = request.POST.get('gee', '')
         ger = userid
-        if Users.objects.filter(user_name=gee).exists():
-            print("AAAAAAAAAAAAAAAA")
-        print("here")
+        if User.objects.filter(username=gee).exists():
+            #print("AAAAAAAAAAAAAAAA")
+            newChallenge = Challenge(challenger = ger, challengee=gee, gerExp=0,
+                                     geeExp=0,remain=7)
+            newChallenge.save()
+            return HttpResponseRedirect('/home')
+        #print("here")
     return render(request, 'CreateChallenge.html', {})
 
+def joinGroup(request):
+    if request.method == "POST":
+        name = request.POST.get('name', '')
+        if Group.objects.get(group_name=name).creator != "None":
+            #description = Group.objects.filter(group_name=name).group_description
+            #creator = Group.objects.filter(group_name=name).creator
+            #newMember = Group(group_name = name, group_description= description, creator =
+
+            if Group.objects.get(group_name= name).member_2 == "None":
+                print(Group.objects.get(group_name= name).member_2 == "None")
+                group = Group.objects.get(group_name= name)
+                group.member_2 = userid
+                group.save()
+                user = Users.objects.get(user_id = userid)
+                user.group = name
+                user.save()
+                print ("Join success")
+            elif Group.objects.get(group_name= name).member_3 == "None":
+                group = Group.objects.get(group_name= name)
+                group.member_3 = userid
+                group.save()
+                user = Users.objects.get(user_id = userid)
+                user.group = name
+                user.save()
+                print ("Join success")
+            else:
+                print ("Cannot join group. group full")
+
+    return render(request, 'JoinGroup.html', {})
