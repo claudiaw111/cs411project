@@ -32,32 +32,3 @@ class Challenge(models.Model):
     gerExp = models.PositiveIntegerField(default=0)
     geeExp = models.PositiveIntegerField(default=0)
     remain = models.PositiveIntegerField(default=7)
-'''
-class Groups(models.Model):
-    group_name = models.CharField("group_name", max_length= 255)
-    group_description = models.TextField()
-    group_number = models.PositiveIntegerField("group_number", default = 0)
-    user_id = models.CharField("user_id", default = 'noID', max_length=10)
-    user_name = models.CharField("user_name", default='noName', max_length= 255)
-
-class UsersForm(ModelForm):
-    class Meta:
-        model = Users
-        fields = ['user_id', 'user_name', 'user_level', 'user_acheivement', 'token', 'token_secret']
-
-
-class CreateUser(models.Model):
-    email = models.CharField("email", max_length=50)
-    password = models.CharField("password", max_length=255)
-
-class CreateUserForm(ModelForm):
-    class Meta:
-        model = CreateUser
-        fields = ['email', 'password']
-
-
-class CreateUserForm(ModelForm):
-    class Meta:
-        model = User
-        fields = ['username', 'password']
-'''

@@ -1,0 +1,11 @@
+{% block content %}
+    <h2>Groups</h2>
+    <ul>
+    {% for g in group %}
+        <li>{{ g.group_name }}</li>
+    {% endfor %}
+    </ul>
+    <br>
+    <p>Click <a href="/joinGroup/">here</a> to join group.</p><br>
+    <p>Click <a href="/createGroup/">here</a> to create group.</p><br>
+{% endblock %}
