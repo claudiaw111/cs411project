@@ -1,3 +1,5 @@
+import urlparse
+
 from django.shortcuts import render, render_to_response
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 import fitbit
@@ -13,11 +15,15 @@ from django.contrib.auth.models import User
 import webbrowser
 
 # Create your views here.
-
+'''
 FITAPP_CONSUMER_KEY = '8cf83d9cc0be9d5ee42072ce55edf7a8'
 FITAPP_CONSUMER_SECRET = 'b2293933b2b0e43cc4d04224e9cf53cd'
+'''
 
+FITAPP_CONSUMER_KEY = 'd781e18d924584fd4862904d11ad85e4'
+FITAPP_CONSUMER_SECRET = '40723ad0a7c5e42142fabcab7c447711'
 
+'''
 def auth(request):
 
 
@@ -37,13 +43,13 @@ def auth(request):
 
     username = profile.get('user').get('displayName')
 
-    '''
+
     newUser = Users(user_id = userid, user_name = username, user_strength = 0,
                         user_agility = 0, user_willpower = 0, user_constitution = 0,
                         user_achievement = bin(0), token = owner_key,
                         token_secret = owner_secret, group = "None")
     newUser.save()
-    '''
+
 
     now = datetime.datetime.now().strftime('%y%m%d')
     activity_stats = auth._COLLECTION_RESOURCE('activities', now, userid)
@@ -54,8 +60,9 @@ def auth(request):
                                                 "client" : profile,
                                                 "activity": activity_stats,
                                                 "time" : time})
+'''
 
-
+'''
 def register_user(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
@@ -67,13 +74,74 @@ def register_user(request):
     args.update(csrf(request))
     args['form'] = UserCreationForm()
     return render_to_response('register.html', args)
+'''
+
+
+
+def register_user(request):
+    #url = request.build_absolute_uri(None)
+    #form = UserCreationForm(request.POST)
+
+    #parsed = urlparse.parse_qs(urlparse.urlparse(url).query)
+    if request.method == "POST":
+        print("IS THE FORM VALID")
+        form = UserCreationForm(request.POST)
+        print(form)
+        if form.is_valid():
+            print("YES IT IS")
+            userid = request.POST.get('username','')
+            print(userid)
+            form.save()
+            return HttpResponseRedirect('/register_success')
+
+    url = request.build_absolute_uri(None)
+    parsed = urlparse.parse_qs(urlparse.urlparse(url).query)
+    if(len(parsed)<1):
+        client = fitbit.FitbitOauthClient(FITAPP_CONSUMER_KEY, FITAPP_CONSUMER_SECRET)
+        token = client.fetch_request_token()
+        request.session['token_no'] = token
+        webbrowser.open(client.authorize_token_url())
+        return render_to_response('register.html')
+
+    else:
+        client = fitbit.FitbitOauthClient(FITAPP_CONSUMER_KEY, FITAPP_CONSUMER_SECRET)
+        token = request.session.get('token_no')
+        listverifier = parsed['oauth_verifier']
+        verifier = listverifier[0]
+        result = client.fetch_access_token(verifier,token)
+        userid = result.get('encoded_user_id')
+        owner_key = result.get('oauth_token')
+        owner_secret = result.get('oauth_token_secret')
+
+
+        auth = fitbit.Fitbit(FITAPP_CONSUMER_KEY, FITAPP_CONSUMER_SECRET, resource_owner_key = owner_key, resource_owner_secret = owner_secret)
+        profile = auth.user_profile_get(userid)
+
+        #username = profile.get('user').get('displayName')
+
+        '''
+        newUser = Users(user_id = userid, user_name = username, user_strength = 0,
+                            user_agility = 0, user_willpower = 0, user_constitution = 0,
+                            user_achievement = bin(0), token = owner_key,
+                            token_secret = owner_secret, group = "None")
+        newUser.save()
+        return HttpResponseRedirect
+        '''
+
+
+
+
+    return render(request,'register.html', {"userid": userid,
+                                                "form" : UserCreationForm()})
+def register_fitbit(request):
+    return render_to_response('register_fitbit.html')
 
 def register_success(request):
     return render_to_response('register_success.html')
-'''
+
 def home(request):
     return render_to_response('home.html', {"home" : "Home Page"})
-'''
+
 
 def user_login(request):
     c = {}
