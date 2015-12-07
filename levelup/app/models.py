@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class Users(models.Model):
     id = models.AutoField(primary_key=True)
     user_id = models.CharField("user_id", default = 'noID', max_length=10)
-    user_name = models.CharField("user_name", max_length= 255)
+    user_name = models.CharField("user_name", default = 'None', max_length= 255)
     #password = models.CharField("password", max_length= 20)
     #user_level = models.PositiveIntegerField(default = '00000000')
     user_strength = models.PositiveIntegerField(default = '0')
