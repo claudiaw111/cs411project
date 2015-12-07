@@ -89,9 +89,23 @@ def register_user(request):
         print(form)
         if form.is_valid():
             print("YES IT IS")
-            userid = request.POST.get('username','')
-            print(userid)
+            data = form.cleaned_data
+            userid = data['username']
+            print('USERID is ', userid)
             form.save()
+            #print(userid)
+            if userid != None:
+                print("userid not None!!")
+
+                owner_key = request.session.get('owner_key')
+                owner_secret = request.session.get('owner_secret')
+                newUser = Users(user_id = userid, user_name = "None", user_strength = 0,
+                            user_agility = 0, user_willpower = 0, user_constitution = 0,
+                            user_achievement = bin(0), token = owner_key,
+                            token_secret=owner_secret, group = "None")
+
+                newUser.save()
+
             return HttpResponseRedirect('/register_success')
 
     url = request.build_absolute_uri(None)
@@ -116,6 +130,9 @@ def register_user(request):
 
         auth = fitbit.Fitbit(FITAPP_CONSUMER_KEY, FITAPP_CONSUMER_SECRET, resource_owner_key = owner_key, resource_owner_secret = owner_secret)
         profile = auth.user_profile_get(userid)
+        request.session['owner_key'] = owner_key
+        request.session['owner_secret'] = owner_secret
+
 
         #username = profile.get('user').get('displayName')
 
@@ -248,34 +265,61 @@ def group_pg(request):
 
 def challenge_pg(request):
     name = request.user.username
-    challenge = Challenge.objects.get(challenger = name)
-    gee = challenge.challengee
-    gerExp = challenge.gerExp
-    geeExp = challenge.geeExp
-    remain = challenge.remain
-    return render_to_response('challenge_pg.html', {{"name" : name,
+    try:
+        exist = Group.objects.get(group_name=name) != "None"
+    except Group.DoesNotExist:
+        exist = False
+
+    if exist:
+        challenge = Challenge.objects.get(challenger = name)
+        gee = challenge.challengee
+        gerExp = challenge.gerExp
+        geeExp = challenge.geeExp
+        remain = challenge.remain
+        return render_to_response('challenge_pg.html', {{"name" : name,
                                                      "challengee" : gee,
-                                                     "gerExp" : geeExp,
+                                                     "gerExp" : gerExp,
                                                      "geeExp" : geeExp,
                                                      "remain" : remain}})
+    else:
+        return  render_to_response('no_challenge.html')
 
 def user_pg(request):
-    profile = auth.user_profile_get(request.user.username)
     name = request.user.username
     user = Users.objects.get(user_id = name)
+    owner_key = user.token
+    owner_secret = user.token_secret
+    auth = fitbit.Fitbit(FITAPP_CONSUMER_KEY, FITAPP_CONSUMER_SECRET, resource_owner_key = owner_key, resource_owner_secret = owner_secret)
+    profile = auth.user_profile_get(name)
     groupname = user.group
-    gee = Challenge.objects.get(challenger=name)
-    challenge = gee.challengee
+
     agilevel = user.user_agility
     strlevel = user.user_strength
     willlevel = user.user_willpower
     constitution = user.user_constitution
     avatar = profile.get('user').get('avatar')
-    return render_to_response('userpage.html', {{"name" : name,
+    try:
+        exist = Group.objects.get(group_name=name) != "None"
+    except Group.DoesNotExist:
+        exist = False
+    if exist:
+        gee = Challenge.objects.get(challenger=name)
+        challenge = gee.challengee
+        return render_to_response('userpage.html', {"name" : name,
                                                  "avatar" : avatar,
                                                  "groupname" : groupname,
                                                  "challenge" : challenge,
                                                  "agilevel" : agilevel,
                                                  "strlevel" : strlevel,
                                                  "willlevel" : willlevel,
-                                                 "constitution" : constitution}})
+                                                 "constitution" : constitution})
+    else:
+
+        return render_to_response('userpage.html', {"name" : name,
+                                                 "avatar" : avatar,
+                                                 "groupname" : groupname,
+                                                "challenge" : "You are currently not challenging anyone.",
+                                                 "agilevel" : agilevel,
+                                                 "strlevel" : strlevel,
+                                                 "willlevel" : willlevel,
+                                                 "constitution" : constitution})
