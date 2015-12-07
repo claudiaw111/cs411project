@@ -266,7 +266,7 @@ def group_pg(request):
 def challenge_pg(request):
     name = request.user.username
     try:
-        exist = Group.objects.get(group_name=name) != "None"
+        exist = Challenge.objects.get(challenger=name) != "None"
     except Group.DoesNotExist:
         exist = False
 
@@ -276,11 +276,11 @@ def challenge_pg(request):
         gerExp = challenge.gerExp
         geeExp = challenge.geeExp
         remain = challenge.remain
-        return render_to_response('challenge_pg.html', {{"name" : name,
+        return render_to_response('challenge_pg.html', {"name" : name,
                                                      "challengee" : gee,
                                                      "gerExp" : gerExp,
                                                      "geeExp" : geeExp,
-                                                     "remain" : remain}})
+                                                     "remain" : remain})
     else:
         return  render_to_response('no_challenge.html')
 
