@@ -18,12 +18,14 @@ from django.contrib import admin
 #from app.views import test
 
 urlpatterns = patterns('',
-    url(r'^$', 'app.views.home', name = 'home'),
+    #url(r'^$', 'app.views.home', name = 'home'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', 'app.views.user_login', name = 'index'),
     #url(r'^create/$', 'app.views.createUser', name = 'create'),
     #url(r'^home/$', 'app.views.home', name = 'home'),
 
     #url(r'^auth/$', 'app.views.auth'),
+
     #url(r'^auth/$', 'app.views.auth_view', name='auth'),
     url(r'^login/$', 'app.views.user_login', name = 'login'),
     url(r'^auth/$', 'app.views.auth_view', name='auth'),
@@ -47,4 +49,5 @@ urlpatterns = patterns('',
     url(r'^challenge/$', 'app.views.challenge_pg', name='challenge'),
     url(r'^user/$', 'app.views.user_pg', name='user'),
     url(r'^register_fitbit/$', 'app.views.register_fitbit',name = 'register_fitbit'),
+    url(r'^calculateExp/$', 'app.views.calculateExp', name = 'calculateExp'),
 )
