@@ -1,0 +1,278 @@
+
+
+
+.background-image {
+    background: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6));
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+/* Styles for the alternating / transition effect. */
+.toggle-image {
+ 	position: absolute;
+	width: 100%;
+	top: 0;
+	left: 0;
+ 	height: 800px;
+	transition: opacity 1s ease-in-out;
+}
+
+/* Styles for the specific images. */
+.first-image {
+	background-image: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)),url("pic1.jpg");	
+	z-index: -3;
+	opacity: 0;
+}
+
+.second-image {
+	background-image:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)), url('pic2.jpg');
+	z-index: -2;
+	opacity: 0;
+}
+
+.third-image {
+	background-image: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)),url('pic3.jpg');
+	z-index: -1;
+	opacity: 0;
+}
+
+.first-image.show {
+	opacity: 1;
+}
+
+.second-image.show {
+	opacity: 1;
+}
+
+.third-image.show {
+	opacity: 1;
+}
+
+h1{
+    position: relative;
+    font-family: fantasy;
+    
+    color: aliceblue;
+    font-size: 24px;
+    height:15vw;
+    width: 60vw;
+    top:30vw;
+    left:5vw;
+    
+    
+}
+
+h3{
+    
+    position: relative;
+    font-family: fantasy;
+      color: aliceblue;
+    top:25vw;;
+    left:40vw;  
+    width: 20vw;
+    
+}
+.logo {
+    position: relative;
+    width: 300px;
+    height: 55px;
+    margin: 30px auto;
+    font-family: fantasy;
+    font-size: 35px;
+    color:white;
+    font-weight:300;
+    top:-8vw;
+    left: 36vw;
+}
+
+.login-block {
+    position: relative;
+    width: 250px;
+    height: 300px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    border-top: 5px solid #ff656c;
+    margin: 0 auto;
+    top:-10vw;
+    left:35vw;
+    background: linear-gradient(rgba(16, 16, 16, 0.39),rgba(0, 0, 0, 0.34));
+}
+
+.login-block h2 {
+    text-align: center;
+    color: #000;
+    font-size: 18px;
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color:aliceblue;
+    font-family:fantasy;
+}
+
+.login-block input {
+    width: 100%;
+    height: 42px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-family: Montserrat;
+    padding: 0 20px 0 50px;
+    outline: none;
+}
+
+.login-block input#username {
+    background: #fff url('http://i.imgur.com/u0XmBmv.png') 20px top no-repeat;
+    background-size: 16px 80px;
+}
+
+.login-block input#username:focus {
+    background: #fff url('http://i.imgur.com/u0XmBmv.png') 20px bottom no-repeat;
+    background-size: 16px 80px;
+}
+
+.login-block input#password {
+    background: #fff url('http://i.imgur.com/Qf83FTt.png') 20px top no-repeat;
+    background-size: 16px 80px;
+}
+
+.login-block input#password:focus {
+    background: #fff url('http://i.imgur.com/Qf83FTt.png') 20px bottom no-repeat;
+    background-size: 16px 80px;
+}
+
+.login-block input:active, .login-block input:focus {
+    border: 1px solid #ff656c;
+}
+
+.login-block button {
+    width: 100%;
+    height: 40px;
+    background: #ff656c;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #e15960;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-family: Montserrat;
+    outline: none;
+    cursor: pointer;
+}
+
+.login-block button:hover {
+    background: #ff7b81;
+}
+
+
+.topblack {
+    position: absolute;
+    width:100%;
+    height: 5vw;
+    background-color: black;
+    top:0;
+    
+    
+}
+#options li{
+    font-family: fantasy;
+    outline: none;
+    text-decoration: none;
+    position: relative;
+    top:-0.1vw;
+    z-index: 1;
+    width:400px;
+    height:auto;
+    left:3vw;
+    font-size: 2.5vw;
+    display: inline;
+    margin: 2vw;
+    color: aliceblue;
+
+}
+#runicon{
+    width: 5vw;
+    position:absolute;
+    top:0vw;
+    left:-0.5vw;
+}
+h4{ 
+    font-family:monospace;
+    position: relative;
+height: auto;
+ width: auto;
+   font-size: 14px;
+   color:rgba(44, 153, 162, 0.65);
+    left:0.2vw;
+    top:-1vw;
+    text-align:inherit;
+
+}
+
+p1{
+    
+    font-family: fantasy; 
+    color: rgba(243, 255, 240, 0.66);
+    position: absolute;   
+    font-size: 2.0vw;
+    top:22vw;
+    left:20vw;
+    width:60vw;
+    height:28vw;
+    text-align:justify;
+    
+    
+}
+#levup{
+    color: rgba(61, 183, 183, 0.97);
+    font-size: 3.5vw;
+    
+} 
+a:link {
+    color: aliceblue;
+    text-decoration:none;
+}
+a:visited {
+    color:aliceblue;
+    text-decoration:none;
+}
+
+a:style{
+
+text-decoration:none;
+
+}
+#whyus,#ph{
+    color: rgba(148, 186, 125, 0.74);
+    font-family: fantasy;
+    position: absolute;
+    font-size: 5vw;
+    top:6vw;
+    left:38vw;
+    height: auto;
+    width:auto;
+    box-sizing: border-box;
+    
+}
+#ph{
+  left:28vw;    
+    
+}   
+    
+#fitbit{
+   color:rgba(177, 0, 41, 0.74);    
+    
+}
+
+#phi {
+    
+    top:25vw;
+    height: auto;
+    
+    
+    
+}

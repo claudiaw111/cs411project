@@ -1,0 +1,220 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0,0,0,0.6));
+ position: absolute;
+    margin: 0;
+    border: 0;
+    padding: 0;
+}
+
+#full-screen-background-image {
+  z-index: -999;
+  min-height: 100%;
+  min-width: 100%;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+
+
+.friendslist{
+    font-family: Montserrat;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 2vw;
+    height: 15%;
+     width:10%;
+    position: absolute;
+    right: 0;
+    top: 25vw;
+}
+.data{
+    font-family: Montserrat;
+    color: rgba(141, 255, 154, 0.71);
+    font-size: 4vw;
+    position: absolute;
+    left: 10vw;;
+    top: 45vh;
+    width: auto;
+    height: auto;
+    
+
+    
+    
+    
+}
+.data li{
+    margin: 3vw;
+    display: inline;
+    
+    
+    
+}
+h1{
+    height: auto;
+    width: auto;
+    font-family: Montserrat;
+    color: rgba(250, 250, 250, 0.74);
+    position: absolute;
+    left:10vw;
+    top:1%;
+    
+    font-weight: 500;
+    font-size: 4vw;
+    padding: 0%;
+    margin: 1%;
+}
+
+
+ul#example {
+    font-family: 'Open Sans', sans-serif;
+  position: absolute;
+   color: rgba(255, 255, 255, 0.83);
+  list-style: none;
+  margin: 50px 0;
+  padding: 0;
+  display: block;
+  text-align: center;
+    width:35vw;
+    height: 15vh;
+    left: 34vw;
+    top: 50vh;;
+    padding: 0vw;
+    margin: 0
+}
+
+ul#example li { display: inline-block; }
+
+ul#example li span {
+  font-size: 6.5vw;;
+  font-weight: 300;
+  line-height: 80px;
+  font-weight: 100;
+}
+
+ul#example li.seperator {
+  font-size: 7vw;
+  line-height: 70px;
+  vertical-align: top;
+}
+
+ul#example li p {
+  color: #a7abb1;
+  font-size: 2vw;
+    position: relative;
+    padding: 0vw;
+    margin: 0vw;
+}
+#power{
+    
+    position: absolute;
+    left: 9vw;
+    top:15vh;
+    
+    
+    
+}
+
+
+#agility{
+    
+    position: absolute;
+    left: 51vw;
+    top:15vh;
+    
+    
+}
+#physique{
+    
+    position: absolute;
+    left: 30vw;
+    top:15vh;
+    
+    
+}
+#level{
+    
+    position: absolute;
+    top:15vh;
+    left:72vw;
+}
+.btn {
+  display: inline-block;
+  padding: 0 20px 0 70px;
+  background-color: rgba(90, 199, 232, 0.97);
+  color: white;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  position: absolute;
+  height: 7vh;
+  width: 10vw;
+   
+  line-height: 50px;
+  overflow: hidden;
+  border-radius: 3px;
+  transition: background-color 250ms linear;
+    left: 36vw;
+    top: 78vh;
+    font-family: Montserrat;;
+}
+
+.btn:hover { background-color: #00e9d7; }
+
+.btn .num {
+    font-family: Montserrat;
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.075);
+  width: 50px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+    
+}
+
+.btn .fa {
+  line-height: 50px;
+  margin: 0 0 0 20px;
+  width: 50px;
+  background-color: rgba(255, 255, 255, 0.2);
+  position: absolute;
+  right: -50px;
+  top: 0px;
+ 
+}
+.btn#b2{
+    position: absolute;
+    top: 74.5vh;
+    margin-top: 2vw;
+    left:54vw;
+      height: 7vh;
+  width: 10vw;
+}
+p2{height: auto;
+    width: auto;
+    font-family: Montserrat;
+    color: rgba(250, 250, 250, 0.74);
+    position: absolute;
+    left:28vw;
+    top:63vh;
+    
+    font-weight: 500;
+    font-size: 4vw;
+    padding: 0%;
+    margin: 1%;}
+.grouppg h1{
+    font-size: 8vh;
+    font-family: Montserrat;
+    
+}
+.challenges{
+    position: absolute;
+    width: auto;
+    height: auto;
+    
+}
