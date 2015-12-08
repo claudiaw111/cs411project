@@ -1,8 +1,10 @@
 {% block content %}
     <h2>Groups</h2>
-    <ul>
+    <ul style="list-style-type:none">
     {% for g in group %}
-        <li>{{ g.group_name }}</li>
+        <li>Group Name: {{ g.group_name }}</li>
+        <li>Members: {{ g.creator }}, {{ g.member_2 }}, {{ g.member_3 }}</li>
+        <li>Group Description: {{ g.group_description }}</li>
     {% endfor %}
     </ul>
     <br>
